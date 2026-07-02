@@ -1,5 +1,5 @@
 ---
-name: "Licensing Skill"
+name: "licensing-skill"
 description: "Identify required Power Platform components and validate licensing requirements, limits, feature availability, and capacity add-ons based on user scenarios."
 ---
 
@@ -108,6 +108,11 @@ If conflict exists:
   - Distinguish included vs additional capacity
   - Highlight dependencies between licenses and add-ons
   - Provide alternative license paths when applicable
+
+### Extended Scope
+
+- Include guidance on how to check or validate assigned licenses
+- Include observable indicators (premium connectors, Dataverse access)
 
 ## Output Field Mapping
 

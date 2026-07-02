@@ -39,10 +39,13 @@ Use internal knowledge bases through role-based reasoning.
 
 ### KB Roles
 
-- Diagnosis → Identify root cause of issues
-- Resolution → Provide actionable fixes
-- Best Practices → Improve reliability, performance, and maintainability
-- Governance & Constraints → Apply policies (DLP, permissions, environments)
+- **Diagnosis** → Identify root cause of issues
+- **Resolution** → Provide actionable fixes
+- **Component Selection** → Identify suitable Power Platform features
+- **Architecture Guidance** → Structure solution design and blueprints
+- **Best Practices** → Improve performance, scalability, and maintainability
+- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
+- **Licensing** → Validate licensing requirements and limits
 
 ### Role Mapping (Troubleshooting Skill)
 
