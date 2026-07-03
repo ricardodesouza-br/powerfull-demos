@@ -28,6 +28,12 @@ This demo have the following goals:
 
 This demo is intended for **solution architects**, **developers**, and **makers** who want to understand how to implement a multi-agent solution using Copilot Studio and AI Agents, with a focus on **knowledge orchestration** and **role-based reasoning**.
 
+## Demo Explanation
+
+You can read the complete analysis of this demonstration results and watch a video about it on the following blog post.
+
+ [`Blog do Souza`](https://ricardodesouza.com)
+
 ## File Structure
 
 ```
