@@ -21,7 +21,7 @@ The solution is built using a **Coordinator Agent + Specialist Skills architectu
 This demo have the following goals:
 
 - Provide a reference architecture for a Copilot Studio **multi-agent solution** that uses **skills** instead of **connected agents** that can deal with **multiple intents** on the same domain without **loosing accuracy** or **context**.
-- Identify and demonstrate **best practices** for **knowledge base orchestration** and **role-based reasoning** in a multi-agent solution to facilitate **knowledge evolution** and **knowledge reuse** across multiple skills and agents.
+- Identify and demonstrate **best practices** for the **Capability Routing**, a **knowledge base orchestration** and **role-based reasoning** approach for multi-agent solutions to facilitate **knowledge evolution** and **knowledge reuse** across multiple skills and agents.
 - Identify **limitations** on this architecture and provide guidance for **future improvements** and alternative solutions for them.
 
 ## Intended Audience
@@ -30,9 +30,9 @@ This demo is intended for **solution architects**, **developers**, and **makers*
 
 ## Demo Explanation
 
-You can read the complete analysis of this demonstration results and watch a video about it on the following blog post.
+You can read about the Capability Routing concept and watch a video about this demonstration with a complete analysis of this demonstration on the following blog post.
 
- [`Blog do Souza`](https://ricardodesouza.com)
+ [`Blog do Souza - Antes do Primeiro Token`](https://ricardodesouza.com/antes-do-primeiro-token/)
 
 ## File Structure
 
