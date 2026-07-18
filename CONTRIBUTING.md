@@ -148,4 +148,3 @@ If a demo requires sensitive configuration, document the setup process without i
 ## Notes
 
 > **Warning:** Demo-specific prerequisites, assumptions, licensing considerations, and security handling are managed within each demo. Contributors are responsible for ensuring their demo content is accurate, complete, and safe to use.
-

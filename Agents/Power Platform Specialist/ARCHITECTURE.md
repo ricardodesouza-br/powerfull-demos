@@ -140,7 +140,7 @@ To add a new specialist skill:
 2. Author the skill using the templates above.
 3. Add/adjust KB references needed by the new domain.
 4. Update coordinator routing logic/categories.
-5. Document usage in `Skills/README.md`.
+5. Document usage in [`Skills/README.md`](./Skills/README.md)
 
 ## Boundaries and non-goals
 

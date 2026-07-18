@@ -45,15 +45,17 @@ Provide accurate, actionable, and relevant information to employees about Power 
 ### Step 1: Classify intent
 
 - **Solution Finder**
-  - Search Keyworks:  "How do I...?", "What's best...?", "Should I use...?", "Which approach...?"
+  - Search Keywords:  "How do I...?", "What's best...?", "Should I use...?", "Which approach...?"
 - **Troubleshooting**:
-  - Search Keyworks: "Error", "Not working", "Failing", "Why is...?", "How to fix...?"
+  - Search Keywords: "Error", "Not working", "Failing", "Why is...?", "How to fix...?"
 - **Architecture Design**:
-  - Search Keyworks: "Design", "Strategy", "Enterprise", "Large scale", "Governance approach"
+  - Search Keywords: "Design", "Strategy", "Enterprise", "Large scale", "Governance approach"
 - **Performance & Optimization**:
-  - Search Keyworks: "Slow", "Optimize", "Scaling issues", "Bottleneck", "Timeout"
+  - Search Keywords: "Slow", "Optimize", "Scaling issues", "Bottleneck", "Timeout"
 - **Licensing**:
-  - Search Keyworks: "cost", "limits", "credits", "capacity", "storage", "premium", "license"
+  - Search Keywords: "cost", "limits", "credits", "capacity", "storage", "premium", "license"
+- **Governance**:
+  - Search Keywords: "governance", "security", "monitoring", "admin", "devops", "alm", "backup", "audit"
 
 ### Step 2: Ask user for additional context (if necessary)
 
@@ -90,6 +92,10 @@ Ask user to **provide additional context** based on **intent classification**, a
   - Power Platform component (Power Apps Canvas, Power Automate Cloud Flow, Dataverse, etc.)
   - Scale: User count, concurrency, geography, growth projection
   - Data: Volume, sensitivity, relationships, integration sources
+- **Governance**:
+  - Power Platform component (Power Apps Canvas, Power Automate Cloud Flow, Dataverse, etc.)
+  - Topic: governance, security, monitoring, admin, devops, alm, backup, audit
+  - Environment (Dev/Test/Prod) or all platform
 
 **Don't block user to continue** if they don't have the additional content. Just warn they that the agent's response could not be compreensive or complete.
 
