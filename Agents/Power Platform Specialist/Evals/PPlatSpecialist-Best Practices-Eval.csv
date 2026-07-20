@@ -1,0 +1,21 @@
+question,expectedResponse
+Como estruturar ambientes em uma solução Power Platform?,Use ambientes separados como Dev, Test e Prod para separar responsabilidades, testar antes da produção e aumentar confiabilidade.
+Quando devo preferir Dataverse em vez de listas ou planilhas?,"Prefira Dataverse para dados relacionais, críticos ou mission-critical, reavalie listas e planilhas quando houver escala ou complexidade."
+O que fazer se um app Canvas demora muito para abrir?,Reduza trabalho no OnStart, carregue só o necessário inicialmente, adie lógica não crítica e carregue dados sob demanda.
+Como tratar consultas não delegáveis em grandes bases?,Refatore para funções delegáveis, filtre e ordene na fonte, reduza o escopo dos dados e use paginação quando delegação não for possível.
+Quais práticas ajudam a evitar flows difíceis de manter?,Divida flows monolíticos, isole responsabilidades, use child flows para sequências comuns e documente lógica complexa.
+Como implementar tratamento de erro em Power Automate?,Use padrões try-catch-finally com ações Scope, políticas de retry e tratamento defensivo para recuperar falhas transitórias.
+Que cuidado devo ter com paralelismo em flows?,"Use paralelismo apenas em ações independentes, serialize atualizações conflitantes e revise concorrência para evitar race conditions."
+Como otimizar dataflows ou Power Query?,Filtre na origem, evite transformações desnecessárias e use refresh incremental quando disponível para reduzir custo e tempo.
+Como reduzir payload em telas lentas?,Recupere somente colunas necessárias, evite campos pesados sem necessidade e preserve seleção explícita de colunas.
+Por que realizar testes de escala antes da produção?,"Eles revelam gargalos que só aparecem com volume real de dados ou usuários, simule carga em teste e valide com insights de desempenho."
+Como aplicar menor privilégio no Power Platform?,"Conceda apenas permissões necessárias, no Dataverse use roles adequadas, acesso por linha e coluna quando aplicável."
+Como proteger segredos em pipelines ou flows?,Use service principals ou contas aprovadas com menor privilégio e armazene credenciais em cofres seguros como Azure Key Vault.
+O que deve entrar em uma solução ALM-aware?,Inclua apps, flows, tabelas, security roles, connection references e environment variables em solutions desde o início.
+Qual a diferença prática entre unmanaged e managed solutions?,"Use unmanaged para desenvolvimento e controle de fonte, exporte managed como artefato para test, UAT e produção."
+Como separar configuração de implementação no ALM?,Use connection references e environment variables para reduzir mudanças manuais pós-importação entre ambientes.
+Como monitorar soluções críticas de Power Platform?,Configure notificações, rotinas de revisão operacional, analytics, telemetry e experiências do Power Platform admin center.
+Quando usar componentes ou child flows?,Use componentes para UI reutilizável e child flows para sequências comuns, reduzindo duplicação e melhorando manutenção.
+Como diagnosticar lentidão sem causa clara?,"Isole o gargalo: identifique fórmula, consulta, tela ou etapa lenta, desative lógica temporariamente e use Monitor ou telemetria."
+O que fazer quando otimizações locais não resolvem performance?,Reestruture a arquitetura: divida apps ou flows, separe UI de processamento em background e reavalie o datastore.
+Como validar se uma correção de performance funcionou?,Compare métricas antes e depois, use Monitor ou analytics, confirme remoção de warnings de delegação e valide tempos de resposta.
