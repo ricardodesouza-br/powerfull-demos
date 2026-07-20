@@ -49,6 +49,7 @@ Power Platform Specialist/
     ├── performance-skill.md # Skill: performance optimization
     ├── solutioning-skill.md # Skill: component recommendation
     ├── troubleshooting-skill.md # Skill: issue diagnosis
+    ├── governance-skill.md # Skill: governance best practices
     ├── Registry/
     │   └── skill-registry.md # Central registry of all skills (contracts, mappings)
     └── Templates/
