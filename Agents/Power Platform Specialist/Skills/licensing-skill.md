@@ -34,18 +34,8 @@ Return ONLY valid JSON:{
   
 Use internal knowledge bases through role-based reasoning.
 
-### 1. KB Roles
+### 1. KB Roles Applicable for this Skill
 
-- **Diagnosis** → Identify root cause of issues
-- **Resolution** → Provide actionable fixes
-- **Component Selection** → Identify suitable Power Platform features
-- **Architecture Guidance** → Structure solution design and blueprints
-- **Best Practices** → Improve performance, scalability, and maintainability
-- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
-- **Licensing** → Validate licensing requirements and limits
-
-### 2. Role Mapping (SKILL-SPECIFIC)
-  
 Primary role:
 
 - Licensing  
@@ -55,39 +45,51 @@ Supporting roles:
 - Component Selection
 - Architecture Guidance
 
-### 3. Role Selection Rules
+### 2. Internal KB Metadata Mapping
 
-- Always use Licensing as the primary reasoning driver
-- Use Component Selection when user intent involves solution design
-- Use Architecture Guidance when scale, automation volume, or data usage impacts licensing
-- Trigger capacity_addons evaluation when:
-  - High volume transactions or API calls are implied
-  - AI Builder, Dataverse storage, or unattended RPA is referenced
-  - PAYG or consumption-based scenarios are applicable
+Use internal KB metadata to identify documents associated with each KB role.
+
+| KB Role | Preferred `KB Roles` value | `Keyword` values | Typical `Product` values |
+| --- | --- | --- | --- |
+| **Licensing** | Licensing | license, licensing comparison, entitlements, limits, capacity, add-ons | All Products, Copilot Studio/M365 Copilot |
+| **Component Selection** | Component Selection | Power Apps, Power Automate, Copilot Studio, Power Pages, AI Builder, Dataverse, Copilot Credits, component capability matrix, connector classification, premium features, standard features | All Products |
+| **Architecture Guidance** | Architecture Guidance | Architecture, Solution Blueprint, Architecture discovery, Governance, Security, compliance, ALM, licensing dependencies, scale assumptions, API/storage capacity, solution topology | All Products |
+
+### 3.  Role Selection and Metadata Retrieval Rules
+
+- Always use **Licensing** as the primary reasoning driver.
+- When internal KB returns documents with `KB Roles = Licensing`,  use those documents first.
+- Use **Component Selection** documents when the request requires **choosing Power Platform components or connectors**.
+- Use **Architecture Guidance** documents when scale, automation volume, storage, API usage, or solution dependencies affect licensing.
+- Prefer documents whose `Product` metadata matches the requested Power Platform product.
+- Prefer `Keyword` values relevant to the request:
+  - License Comparison for license-model selection
+  - Limits for API, run, transaction, or entitlement questions
+  - Add-on for AI Builder, Dataverse capacity, RPA, or additional capacity questions
+  - Design Guidance for multi-component licensing dependencies
+- Use a maximum of 2–3 retrieved internal documents.
+- A document matching the primary role and product is preferred over a generic document.
+- Do not select documents by filename, folder hierarchy, or manual re-ranking of SharePoint results.
 
 ### 4. Source Prioritization
 
-- Use internal KB as primary source
+- Use internal KB as **primary source**
 - Use Microsoft documentation to:
   - Validate licensing rules, limits, and add-ons
   - Confirm feature availability (Dataverse, premium connectors, AI Builder, RPA)
 If conflict exists:
-- Prioritize Microsoft documentation for licensing accuracy
-- Preserve internal governance constraints if applicable
+  - Prioritize Microsoft documentation for licensing accuracy
+  - Preserve internal governance constraints if applicable
+- Treat internal KB metadata as the document-classification source.
+- Use only metadata returned by the search result or supported by the retrieval configuration.
+- If metadata is not available in the retrieved result, use the document content and the SharePoint ranking; do not infer undocumented role assignments.
+- Validate time-sensitive licensing claims with Microsoft documentation.
+- Match the request to relevant document sections, such as License Comparison, Limits, Capacity, or Add-ons.
+- Prefer specific licensing, entitlement, capacity, and add-on sections over generic product overviews.
+- Extract relevant sections rather than relying on the full document.
 
-### 5. KB Selection Rules
+### 5. KB Usage Constraints
 
-- Select KBs focused on licensing models, entitlements, capacity, and add-ons
-- Match query to structured sections (e.g., License Comparison, Limits, Capacity, Add-ons)
-- Prioritize:
-  - Specific license types (Per App, Per User, PAYG, Power Automate plans)
-  - Feature availability (Dataverse, Premium connectors)
-  - Capacity metrics (API calls, AI credits, storage, attended/unattended RPA)
-- Avoid generic product overviews
-
-### 6. KB Usage Constraints
-
-- Use a maximum of 2–3 KB sources
 - Ensure alignment with selected licensing and add-on scenarios
 - Do not infer unsupported licensing or add-on combinations
 - Avoid mixing unrelated product domains

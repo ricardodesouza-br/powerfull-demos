@@ -130,6 +130,7 @@ Otherwise, agent must call specialist skills as described on the next steps
 | **Architecture** | ArchitectureDesign Skill | `ArchitectureDesign.Invoke(query, add_context)` |
 | **Performance** | Performance Skill | `Performance.Invoke(query, add_context)` |
 | **Licensing** | Licensing Skill | `Licensing.Invoke(query, add_context)` |
+| **Governance** | Governance Skill | `Governance.Invoke(query, add_context)` |
 3. Receive specialist response
 4. Synthesize final response
 5. Return to user
@@ -145,6 +146,7 @@ When a user request have multiple intent classification do the following:
   3. Architecture Design Skill
   4. Performance Skill
   5. Licensing Skill
+  6. Governance Skill
 - Synthesize all skills responses into a single and coherent response.
 - Return to user
 
