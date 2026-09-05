@@ -1,6 +1,7 @@
 ---
 title: Power Platform Remediation Patterns
 document_type: RemediationPatterns
+document_role: Troubleshooting
 domain: LowCode
 product_family: Microsoft Power Platform
 

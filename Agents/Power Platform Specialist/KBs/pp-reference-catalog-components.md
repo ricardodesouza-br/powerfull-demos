@@ -1,6 +1,7 @@
 ---
 title: Power Platform Component Reference Catalog
 document_type: ReferenceCatalogs
+document_role: Architecture Guidance
 domain: LowCode
 product_family: Microsoft Power Platform
 

@@ -1,6 +1,7 @@
 ---
 title: Power Platform Causes Catalog
 document_type: CausesCatalog
+document_role: Troubleshooting
 domain: LowCode
 product_family: Microsoft Power Platform
 

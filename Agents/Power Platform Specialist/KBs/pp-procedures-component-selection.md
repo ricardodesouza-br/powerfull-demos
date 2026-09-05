@@ -1,6 +1,7 @@
 ---
 title: Power Platform Architectural Component Selection Procedure
 document_type: Procedures
+document_role: Architecture Guidance
 domain: LowCode
 product_family: Microsoft Power Platform
 

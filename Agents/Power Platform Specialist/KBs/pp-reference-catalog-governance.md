@@ -1,6 +1,7 @@
 ---
 title: Power Platform Governance Reference Catalog
 document_type: ReferenceCatalogs
+document_role: Governance & Constraints
 domain: LowCode
 product_family: Microsoft Power Platform
 owner: Low Code Team

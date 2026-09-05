@@ -1,6 +1,7 @@
 ---
 title: Power Platform Best Practices
 document_type: BestPractices
+document_role: BestPractices
 domain: LowCode
 product_family: Microsoft Power Platform
 

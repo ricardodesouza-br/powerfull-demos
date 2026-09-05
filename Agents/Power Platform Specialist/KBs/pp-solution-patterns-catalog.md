@@ -1,6 +1,7 @@
 ---
 title: Power Platform Solution Patterns
 document_type: SolutionPatterns
+document_role: Architecture Guidance
 domain: LowCode
 product_family: Microsoft Power Platform
 
