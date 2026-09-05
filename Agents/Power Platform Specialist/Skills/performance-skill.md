@@ -9,18 +9,21 @@ description: "Diagnose Power Platform performance bottlenecks and recommend opti
 
 Diagnose performance bottlenecks in Power Platform solutions and recommend validated optimization strategies based on internal KBs and Microsoft guidance.
 
-## Input Contract
+## Input Contract (MANDATORY)
 
+```json
 {
   "query": "[User issue description]",
   "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing]",
   "add_context": "[Optional additional details]"
 }
+```
 
 ## Output Contract (MANDATORY)
-
+  
 Return ONLY valid JSON:
 
+```json
 {
   "probable_causes": [
     {
@@ -74,12 +77,13 @@ Return ONLY valid JSON:
   "requires_escalation": false,
   "sources": []
 }
+```
 
 ## KB Orchestration Pattern
 
 Use internal knowledge bases through role-based reasoning.
 
-### KB Roles
+### 1. KB Roles
 
 - **Diagnosis** → Identify root cause of issues
 - **Resolution** → Provide actionable fixes
@@ -89,28 +93,119 @@ Use internal knowledge bases through role-based reasoning.
 - **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
 - **Licensing** → Validate licensing requirements and limits
 
-### Role Mapping
-
+### 2. Role Mapping (SKILL-SPECIFIC)
+  
 Primary role: Diagnosis  
-Supporting roles: Resolution, Best Practices, Governance
+Supporting roles: Resolution, Best Practices, Governance & Constraints
 
-### Role Usage
+### 3. Role Selection Rules
 
-- Always use ONE primary role
-- Use up to TWO supporting roles
-- Prefer the most specific role
+- Use Diagnosis to drive decisions (mandatory)
+- Use Resolution for identifying fixes
+- Use Best Practices for performance and maintainability
+- Use Governance & Constraints for security and policy compliance
+- Do not exceed 3 roles per request
 
-### KB Selection & Usage
+### 4. Source Prioritization
 
-- Select relevant KB sections (max 2 sources)
-- Prioritize specific sections over generic ones
+- Internal KB is the primary source for performance-related causes and best practices
+- Microsoft documentation is used to validate:
+  - Performance benchmarks
+  - Connector limits
+  - Reliability requirements
+If conflict exists:
+- Prioritize Microsoft documentation for technical accuracy
+- Preserve internal performance-specific guidelines where applicable
 
-- Extract:
-  - Causes from "Cause"
-  - Solutions from "Solution"
+### 5. KB Selection Rules
 
-- Ensure:
-  - alignment with KB
+- Select KBs based on performance-related relevance (e.g., causes, best practices, limits)
+- Match queries to structured sections such as:
+  - Performance Causes
+  - Best Practices
+  - Limits
+- Avoid generic sections like Overview
+- Extract only relevant sections supporting performance optimization
+
+### 6. KB Usage Constraints
+
+- Use max 2–3 KB sources
+- Ensure all recommendations are aligned with performance best practices
+- Avoid mixing unrelated performance domains
+
+### 7. Core Requirements
+
+- Use PRIMARY role to drive main reasoning
+- Use SUPPORTING roles to enrich outputs
+- Keep reasoning grounded in KB content
+- Validate technical accuracy using authoritative documentation when needed
+- Extract and reference the most relevant KB sections
+
+### 8. Output Field Mapping
+
+Map each output field to KB roles:
+
+- "probable_causes" → Diagnosis
+- "validation_tasks" → Resolution
+- "recommended_actions" → Resolution
+- "monitoring_actions" → Best Practices
+- "best_practices" → Best Practices
+- "overall_confidence" → Diagnosis
+- "requires_escalation" → Resolution
+- "sources" → Diagnosis
+
+### 9. Confidence Guidelines
+
+- **High**: Recommendation is directly supported by internal KB and/or verified Microsoft documentation.
+- **Medium**: Recommendation is based on standard industry practices but may require some customization.
+- **Low**: Recommendation is based on common knowledge but requires manual verification or lacks specific KB backing.
+
+### 10. Output Rules (MANDATORY)
+
+- Output MUST be valid JSON.
+- Do not include any preamble, markdown code blocks, or conversational text.
+- Ensure all descriptions are professional, concise, and actionable.
+- Provide clear, bulleted lists for alternatives and considerations.
+- Always include a 'sources' array with links to the specific KB sections used.
+
+### 11. Output Constraints
+
+- Limit primary recommendation to 1 core solution.
+- Provide a maximum of 3 alternative approaches.
+- Responses must be directly applicable to the Power Platform (not general software engineering).
+- Do not recommend features that are not accessible via the Power Platform.
+
+### 12. Reference Rules (MANDATORY)
+
+- Always cite the specific Knowledge Base (KB) section used for each recommendation.
+- If a design pattern is used, reference the pattern's name.
+- If a common practice is mentioned, indicate the level of familiarity (e.g., "standard practice", "highly recommended").
+- For any governance concerns, reference the specific policy or constraint.
+
+### 13. Error Handling
+
+- If the query is insufficient (e.g., "What should I do?"), request clarification and ask for the specific scenario/constraints.
+- If no valid KB matches the request, state clearly that no specific guidance is found and suggest contacting a specialist.
+- If the query falls outside the scope of Power Platform solutions, politely decline to answer.
+
+### 14. Behavior Constraints
+
+- Do not offer opinions; only provide facts based on internal/Microsoft knowledge.
+- Avoid technical jargon unless necessary for clarity.
+- Ensure tone is helpful, professional, and neutral.
+- Do not provide "how-to" steps unless requested; focus on "what" and "why" for implementation patterns.
+
+**Specific Mapping for Performance Skill:**
+
+- "probable_causes" → Diagnosis
+- "validation_tasks" → Resolution
+- "recommended_actions" → Resolution
+- "monitoring_actions" → Best Practices
+- "best_practices" → Best Practices
+- "overall_confidence" → Diagnosis
+- "requires_escalation" → Resolution
+- "sources" → Diagnosis
+
   - no unsupported recommendations
   - no merging unrelated sections
 
@@ -239,36 +334,65 @@ If cause uncertain:
 - Prevent recurrence
 - No generic advice
 
-## Output Rules
+## Output Field Mapping
 
-- Return ONLY JSON
-- No explanations
-- Max 1–2 sentences per field
+Map each output field to KB roles:
+
+- [FIX ME] → Diagnosis + Resolution + Best Practices
+
+## Confidence Guidelines
+
+- **High** → Strong match with primary KB role + validated by Microsoft documentation
+- **Medium** → Partial KB match or requires supporting roles
+- **Low** → Weak KB match, ambiguity, or insufficient context
+- If any required input is missing or context is insufficient, set `requires_escalation: true`.
+
+## Output Rules (MANDATORY)
+
+- Return ONLY valid JSON
+- Do NOT include Markdown, explanations, or conversational text
+- Do NOT repeat the input query
+- Keep all fields concise (1–2 sentences)
+- Default list length is 3 unless explicitly overridden in Output Constraints.
 
 ## Output Constraints
 
-- Max 5 causes
-- Max 2 validation tasks per cause
-- Max 2 action groups per cause
-- Max 5 monitoring actions
-- Max 7 best practices
+- Limit lists to 3 items unless necessary
+- Avoid verbose explanations
+- Prefer structured content over narrative
 
-- Do NOT include weak causes
+## Reference Rules (MANDATORY)
 
-- All items must map to related causes
-- No inline citations
+- Populate ONLY the "sources" field
+- Include sources only when used
+
+### Sources Format
+
+```json
+{
+  "title": "[Source title]",
+  "url": "[Source URL]",
+  "type": "InternalKB | MicrosoftLearn",
+  "section": "[Section title or heading]"
+}
+```
 
 ## Error Handling
 
-If insufficient context:
+If context is insufficient:
 
+```json
 {
-  "probable_causes": [],
-  "validation_tasks": [],
-  "recommended_actions": [],
-  "monitoring_actions": [],
-  "best_practices": [],
-  "overall_confidence": "Low",
-  "requires_escalation": false,
-  "sources": []
+  "confidence": "Low",
+  "requires_escalation": true,
+  "missing_inputs/assumptions": "[List missing inputs or assumptions]",
+  "sources": "[List sources used for partial reasoning]"
 }
+```
+
+## Behavior Constraints
+
+- Do NOT generate user-facing explanations
+- Do NOT ask follow-up questions
+- Do NOT perform conversational actions
+- Focus only on structured reasoning output

@@ -9,12 +9,12 @@ description: "<Short description aligned with purpose>"
 
 Describe what this skill does in 1–2 sentences
 
-## Input Contract
+## Input Contract (MANDATORY)
 
 ```json
 {
   "query": "[User request]",
-  "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing]",
+  "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing | Governance]",
   "add_context": "[Optional additional details]"
 }
 ```
@@ -22,6 +22,8 @@ Describe what this skill does in 1–2 sentences
 ## Output Contract (MANDATORY)
 
 Return ONLY valid JSON:
+
+*EXAMPLE STRUCTURE — CUSTOMIZE PER SKILL*
 
 ```json
 {
@@ -37,34 +39,26 @@ Return ONLY valid JSON:
 
 Use internal knowledge bases through role-based reasoning.
 
-### 1. KB Roles
-
-- **Diagnosis** → Identify root cause of issues
-- **Resolution** → Provide actionable fixes
-- **Component Selection** → Identify suitable Power Platform features
-- **Architecture Guidance** → Structure solution design and blueprints
-- **Best Practices** → Improve performance, scalability, and maintainability
-- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
-- **Licensing** → Validate licensing requirements and limits
-
-### 2. Role Mapping (SKILL-SPECIFIC)
+### KB Role Mapping for this skill
 
 Primary role:
 
-- DEFINE PRIMARY ROLE
+*!!! DEFINE PRIMARY ROLE !!!*
 
 Supporting roles:
 
-- DEFINE 1–3 SUPPORTING ROLES
+- *!!! DEFINE 1–3 SUPPORTING ROLES !!!*
 
-### 3. Role Selection Rules
+### Role Selection Rules
 
 - Always use ONE primary role
 - Use up to TWO supporting roles when needed
 - Prefer specific roles over generic guidance
 - Avoid using more than 3 roles unless strictly required
+- Use the canonical roles: Diagnosis, Resolution, Component Selection, Architecture Guidance, Best Practices, Governance & Constraints, Licensing.
+- Use the `query_type` of `[Solution | Troubleshooting | Architecture | Performance | Licensing | Governance]` for coordinated-led routing, but identify and use the 7 canonical roles for internal KB-based reasoning.
 
-### 4. Source Prioritization
+### Source Prioritization
 
 - Use internal KB as primary source
 - Use Microsoft documentation to:
@@ -76,9 +70,9 @@ If conflict exists:
 - Prioritize Microsoft documentation for technical accuracy
 - Preserve internal KB guidance aligned with company policies
 
-### 5. KB Selection Rules
+### KB Selection Rules
 
-- Assume SharePoint search already ranks documents
+- Assume KB search already ranks documents
 - Do NOT re-rank documents manually
 - Select KBs based on role relevance
 
@@ -89,12 +83,14 @@ Within selected KBs:
 - Extract information using document structure (e.g., Cause, Solution, Guidelines)
 - Preserve logical sequence where defined
 
-### 6. KB Usage Constraints
+### KB Usage Constraints
 
 - Use a maximum of 2–3 KB sources
 - Ensure all outputs align with selected KB sections
 - Do not introduce unsupported recommendations unless validated
 - Avoid merging unrelated KB sections
+- Use only sources actually used.
+- Ensure Microsoft Learn is only used for time-sensitive or technically authoritative validation.
 
 ## Core Requirements
 
@@ -103,6 +99,7 @@ Within selected KBs:
 - Keep reasoning grounded in KB content
 - Validate technical accuracy using authoritative documentation when needed
 - Extract and reference the most relevant KB sections
+- Ensure all outputs are structured and concise.
 
 ## Output Field Mapping
 
@@ -113,7 +110,9 @@ Within selected KBs:
 - "<field_1>" → Primary role
 - "<field_2>" → Secondary role
 - "<field_3>" → Best Practices or Governance role
-
+- Ensure all output fields are typed (e.g., String, Array, Object)
+- Provide a default/empty fallback value for every field
+- Define the max cardinality for any list fields
 - Ensure consistency between:
   - diagnosis ↔ Diagnosis role
   - resolution ↔ Resolution role
@@ -126,6 +125,7 @@ Within selected KBs:
 - **High** → Strong match with primary KB role + validated by Microsoft documentation
 - **Medium** → Partial KB match or requires supporting roles
 - **Low** → Weak KB match, ambiguity, or insufficient context
+- If any required input is missing or context is insufficient, set `requires_escalation: true`.
 
 ## Output Rules (MANDATORY)
 
@@ -133,6 +133,7 @@ Within selected KBs:
 - Do NOT include Markdown, explanations, or conversational text
 - Do NOT repeat the input query
 - Keep all fields concise (1–2 sentences)
+- Default list length is 3 unless explicitly overridden in Output Constraints.
 
 ## Output Constraints
 
@@ -143,17 +144,16 @@ Within selected KBs:
 ## Reference Rules (MANDATORY)
 
 - Populate ONLY the "sources" field
-- Do NOT include inline references ([1], [2])
 - Include sources only when used
 
 ### Sources Format
 
 ```json
 {
-  "title": "",
-  "url": "",
+  "title": "[Source title]",
+  "url": "[Source URL]",
   "type": "InternalKB | MicrosoftLearn",
-  "section": ""
+  "section": "[Section title or heading]"
 }
 ```
 
@@ -164,8 +164,9 @@ If context is insufficient:
 ```json
 {
   "confidence": "Low",
-  "requires_escalation": false,
-  "sources": []
+  "requires_escalation": true,
+  "missing_inputs/assumptions": "[List missing inputs or assumptions]",
+  "sources": "[List sources used for partial reasoning]"
 }
 ```
 
