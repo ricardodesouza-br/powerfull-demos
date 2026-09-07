@@ -1,6 +1,6 @@
 ---
 name: "licensing-skill"
-description: "Identify required Power Platform components and validate licensing requirements, limits, feature availability, and capacity add-ons based on user scenarios."
+description: "Identify and validate licensing requirements, limits, feature availability, and capacity add-ons based on user scenarios."
 ---
 
 # licensing-skill
@@ -25,13 +25,10 @@ Return ONLY valid JSON:
 
 ```json
 {
-  "recommended_components": [],
-  "licensing_requirements": [],
-  "license_capabilities": [],
-  "license_options": [],
-  "capacity_addons": [],
+  "component_or_capacity_name": "",
+  "license_or_capacity_required": [],
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "sources": []
 }
 ```
@@ -138,18 +135,24 @@ Within selected KBs:
 
 Map each output field to KB roles:
 
-- "recommended_components" → Component Selection
-- "licensing_requirements" → Licensing
-- "license_capabilities" → Licensing
-- "license_options" → Licensing
-- "capacity_addons" → Licensing
-- "confidence" → Licensing
-- "requires_escalation" → Licensing
-- "sources" → Licensing
+- "component_or_capacity_name" -> Component Selection
+- "license_or_capacity_required" -> Licensing
+- "license_or_capacity_name" -> Licensing
+- "justification" -> Licensing
+- "confidence" -> Licensing
+- "requires_escalation" -> Licensing
+- "sources" -> Licensing
 
 ### Object Shapes (SKILL SPECIFIC)
 
-!!! DEFINE OUTPUT OBJECT SHAPES PER FIELD !!!
+component_or_capacity_name": ""
+
+license_or_capacity_required": [
+    {
+      "license_or_capacity_name": "",
+      "justification": ""
+    }
+]
 
 ### Constraints
 

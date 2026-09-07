@@ -25,56 +25,13 @@ Return ONLY valid JSON:
 
 ```json
 {
-  "probable_causes": [
-    {
-      "cause": "",
-      "category": "",
-      "likelihood": "High | Medium | Low",
-      "impact": "High | Medium | Low",
-      "priority_score": "",
-      "ranking_position": "",
-      "confidence": "High | Medium | Low",
-      "evidence": "",
-      "kb_reference": "",
-      "correlations": [
-        {
-          "related_cause": "",
-          "relationship": "Amplifies | DependsOn | Co-occursWith",
-          "effect": "",
-          "severity_multiplier": "Low | Medium | High"
-        }
-      ]
-    }
-  ],
-  "validation_tasks": [
-    {
-      "related_cause": "",
-      "task": "",
-      "target": "",
-      "expected_result": "",
-      "interpretation": ""
-    }
-  ],
-  "recommended_actions": [
-    {
-      "related_cause": "",
-      "type": "Quick Fix | Optimization | Architectural | Escalation",
-      "effort": "Low | Medium | High",
-      "risk": "Low | Medium | High",
-      "actions": []
-    }
-  ],
-  "monitoring_actions": [
-    {
-      "metric": "",
-      "target": "",
-      "method": "",
-      "success_criteria": ""
-    }
-  ],
+  "probable_causes": [],
+  "validation_tasks": [],
+  "recommended_actions": [],
+  "monitoring_actions": [],
   "best_practices": [],
   "overall_confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "sources": []
 }
 ```
@@ -191,7 +148,58 @@ Map each output field to KB roles:
 
 ### Object Shapes
 
-!!! DEFINE OUTPUT OBJECT SHAPES PER FIELD !!!
+"probable_causes": [
+  {
+    "cause": "",
+    "category": "",
+    "likelihood": "High | Medium | Low",
+    "impact": "High | Medium | Low",
+    "priority_score": "",
+    "ranking_position": "",
+    "confidence": "High | Medium | Low",
+    "evidence": "",
+    "kb_reference": "",
+    "correlations": [
+      {
+       "related_cause": "",
+        "relationship": "Amplifies | DependsOn | Co-occursWith",
+        "effect": "",
+        "severity_multiplier": "Low | Medium | High"
+      }
+    ]
+  }
+]
+
+"validation_tasks": [
+  {
+    "related_cause": "",
+    "task": "",
+    "target": "",
+    "expected_result": "",
+    "interpretation": ""
+  }
+]
+
+"recommended_actions": [
+  {
+    "related_cause": "",
+    "type": "Quick Fix | Optimization | Architectural | Escalation",
+    "effort": "Low | Medium | High",
+    "risk": "Low | Medium | High",
+    "actions": []
+  }
+]
+
+"monitoring_actions": [
+  {
+    "metric": "",
+    "target": "",
+    "method": "",
+    "success_criteria": ""
+  }
+]
+
+"best_practices": []
 
 ### Constraints
 

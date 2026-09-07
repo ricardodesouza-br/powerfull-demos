@@ -147,6 +147,10 @@ Map each output field to KB roles:
 - "monitoring" → Best Practices
 - "sources" → Troubleshooting
 
+### Object Shapes
+
+!!! DEFINE OUTPUT OBJECT SHAPES PER FIELD !!!
+
 ### Constraints
 
 - Limit lists to 3 items unless necessary

@@ -29,7 +29,7 @@ Return ONLY valid JSON:
   "alternative_approaches": [],
   "key_considerations": [],
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "sources": []
 }
 ```
@@ -128,10 +128,10 @@ Within selected KBs:
 
 Map each output field to KB roles:
 
-- "primary_recommendation" → Governance & Constraints
-- "alternative_approaches" → Governance & Constraints
-- "key_considerations" → Governance & Constraints
-- "confidence" → Governance & Constraints
+- "primary_recommendation" → Governance & Constraints and Best Practices
+- "alternative_approaches" → Governance & Constraints and Architecture Guidance
+- "key_considerations" → Governance & Constraints and Architecture Guidance
+- "confidence" → Governance & Constraints and Architecture Guidance
 - "requires_escalation" → Governance & Constraints
 - "sources" → Governance & Constraints
 

@@ -13,4 +13,3 @@ This folder contains the Power Platform best-practices, diagnostic, reference, p
 - [`pp-procedures-governance.md`](pp-procedures-governance.md)
 - ['Microsoft Power Platform Licensing Guide (August 26).pdf'](Microsoft-Copilot-Studio-Licensing-Guide-August.pdf)
 - ['Microsoft Copilot Studio Licensing Guide (August 26).pdf'](Microsoft-Copilot-Studio-Licensing-Guide-August.pdf)
-
