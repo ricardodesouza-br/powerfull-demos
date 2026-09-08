@@ -24,7 +24,7 @@ Return ONLY valid JSON:
 {
   "diagnosis": "",
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "issue_category": "",
   "diagnostic_steps": [],
   "resolution_paths": [],
@@ -141,15 +141,48 @@ Map each output field to KB roles:
 - "confidence" → Troubleshooting
 - "requires_escalation" → Troubleshooting
 - "issue_category" → Troubleshooting
-- "diagnostic_steps" → Resolution
-- "resolution_paths" → Resolution
-- "prevention" → Best Practices
-- "monitoring" → Best Practices
+- "diagnostic_steps" → Troubleshooting
+- "resolution_paths" → Troubleshooting
+- "prevention" → Best Practices and Architecture Guidance
+- "monitoring" → Best Practices and Governance & Constraints
 - "sources" → Troubleshooting
 
 ### Object Shapes
 
-!!! DEFINE OUTPUT OBJECT SHAPES PER FIELD !!!
+"diagnosis": ""
+
+"confidence": "High | Medium | Low"
+
+"issue_category": [
+  "Performance",
+  "Licensing",
+  "Architecture",
+  "Security",
+  "Governance",
+  "Integration",
+  "Data Management",
+  "User Experience"
+]
+
+"diagnostic_steps": [
+  { Step 1: "Description of the first diagnostic step" },
+  { Step 2: "Description of the second diagnostic step" }
+]
+
+"resolution_paths": [
+  Path 1: "Description of the first resolution path",
+  Path 2: "Description of the second resolution path"
+]
+
+"prevention": [
+  "Best practice 1: Description of the first preventive measure",
+  "Best practice 2: Description of the second preventive measure"
+  ]
+
+"monitoring": [
+  "Monitoring practice 1: Description of the first monitoring measure",
+  "Monitoring practice 2: Description of the second monitoring measure"
+]
 
 ### Constraints
 
@@ -164,7 +197,7 @@ If context is insufficient:
 ```json
 {
   "confidence": "Low",
-  "requires_escalation": true,
+  "requires_escalation": "true",
   "missing_inputs/assumptions": "[List missing inputs or assumptions]",
   "sources": "[List sources used for partial reasoning]"
 }

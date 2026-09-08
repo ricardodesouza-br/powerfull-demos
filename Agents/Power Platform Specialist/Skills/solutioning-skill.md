@@ -29,7 +29,7 @@ Return ONLY valid JSON:
   "alternative_approaches": [],
   "governance_considerations": [],
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "sources": []
 }
 ```
@@ -181,7 +181,7 @@ If context is insufficient:
 ```json
 {
   "confidence": "Low",
-  "requires_escalation": true,
+  "requires_escalation": "true",
   "missing_inputs/assumptions": "[List missing inputs or assumptions]",
   "sources": "[List sources used for partial reasoning]"
 }
