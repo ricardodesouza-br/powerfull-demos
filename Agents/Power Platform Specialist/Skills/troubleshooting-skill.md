@@ -17,14 +17,14 @@ Diagnose Power Platform issues and provide structured diagnostic steps, resoluti
   "add_context": "[Optional additional details]"
 }
 
-## Output Contract (MANDATORY)
+## Output Contract (SKILL SPECIFIC)
 
 Return ONLY valid JSON:
 
 {
   "diagnosis": "",
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "issue_category": "",
   "diagnostic_steps": [],
   "resolution_paths": [],
@@ -37,38 +37,29 @@ Return ONLY valid JSON:
 
 Use internal knowledge bases through role-based reasoning.
 
-### KB Roles
-
-- **Diagnosis** → Identify root cause of issues
-- **Resolution** → Provide actionable fixes
-- **Component Selection** → Identify suitable Power Platform features
-- **Architecture Guidance** → Structure solution design and blueprints
-- **Best Practices** → Improve performance, scalability, and maintainability
-- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
-- **Licensing** → Validate licensing requirements and limits
-
-### Role Mapping (Troubleshooting Skill)
-
+### KB Role Mapping (SKILL SPECIFIC)
+  
 Primary role:
 
-- Diagnosis
+- Troubleshooting
 
 Supporting roles:
 
-- Resolution
 - Best Practices
+- Architecture Guidance
 - Governance & Constraints
 
 ### Role Selection Rules
 
-- Always use ONE primary role
-- Use up to TWO supporting roles when needed
-- Prefer the most specific role based on the issue
-- Avoid using more than 3 roles unless strictly required
+- Use **Troubleshooting** to identifying fixes and drive decisions (mandatory)
+- Use **Best Practices** for performance and maintainability
+- Use **Governance & Constraints** for security and policy compliance
+- Use **Architecture Guidance** when cross-solution or high-scale architecture is required
+- Do not exceed 3 roles per request
 
 ### Source Prioritization
 
-- Use internal KBs as the primary source
+- Use internal KB as primary source
 - Use Microsoft documentation to:
   - validate KB guidance
   - enrich with up-to-date technical details
@@ -80,152 +71,141 @@ If conflict exists:
 
 ### KB Selection Rules
 
-- Assume SharePoint search already provides relevant documents
+- Assume KB search already ranks documents
 - Do NOT re-rank documents manually
-- Select KBs based on assigned roles
+- Select KBs based on role relevance
 
 Within selected KBs:
 
-- Match query to section titles describing symptoms or errors
-- Prioritize specific issue sections over generic content
-- Extract root cause from "Cause" or "Possible causes"
-- Extract solutions from "Solution" sections
-- Preserve diagnostic sequences defined in KB
+- Match query to section titles or structured headings
+- Prioritize specific scenarios or decisions over generic sections
+- Extract information using document structure (e.g., Cause, Solution, Guidelines)
+- Preserve logical sequence where defined
 
 ### KB Usage Constraints
 
-- Use a maximum of 2 KB sources unless required
-- Ensure outputs align with selected KB sections
+- Use a maximum of 2–3 KB sources
+- Ensure all outputs align with selected KB sections
 - Do not introduce unsupported recommendations unless validated
-- Avoid merging unrelated KB sections into a single diagnosis
+- Avoid merging unrelated KB sections
+- Use only sources actually used.
+- Ensure Microsoft Learn is only used for time-sensitive or technically authoritative validation.
 
 ## Core Requirements
 
-- Identify the most likely root cause category
-- Validate causes and solutions using authoritative Microsoft documentation
-- Provide targeted diagnostics to confirm the hypothesis
-- Provide multiple resolution paths:
-  - Quick fix
-  - Proper fix
-  - Escalation (if needed)
-- Include prevention and monitoring when relevant
-- Base diagnosis on Diagnosis role (KB)
-- Base resolution paths on Resolution role (KB)
-- Use Best Practices role for prevention and monitoring
-- Use Governance role when issue involves permissions, DLP, or environments
-- Extract and reference the most relevant KB section when available
+- Use PRIMARY role to drive main reasoning
+- Use SUPPORTING roles to enrich outputs
+- Keep reasoning grounded in KB content
+- Validate technical accuracy using authoritative documentation when needed
+- Extract and reference the most relevant KB sections
+- Ensure all outputs are structured and concise.
 
-## Output Rules (MANDATORY)
+## Confidence Guidelines
 
-- Return ONLY valid JSON
-- Do NOT include Markdown, explanations, or user-facing text
-- Do NOT repeat the input query
-- Keep all text concise (max 1–2 sentences per field)
-
-## Output Constraints
-
-- Max 3 diagnostic steps
-- Max 3 resolution paths
-- Max 5 items for prevention
-- Max 5 items for monitoring
-
-## Data Structure Guidelines
-
-### diagnostic_steps
-
-{
-  "name": "",
-  "target": "",
-  "action": "",
-  "expected_result": "",
-  "interpretation": ""
-}
-
-### resolution_paths
-
-{
-  "path": "Quick Fix | Proper Fix | Escalation",
-  "effort": "Low | Medium | High",
-  "risk": "Low | Medium | High",
-  "condition": "",
-  "actions": []
-}
+- **High** → Strong match with primary KB role + validated by Microsoft documentation
+- **Medium** → Partial KB match or requires supporting roles
+- **Low** → Weak KB match, ambiguity, or insufficient context
+- If any required input is missing or context is insufficient, set `requires_escalation: true`
 
 ## Reference Rules
 
-- Include references for all sources used
-- Include both internal KB and Microsoft documentation when applicable
-- Avoid duplicate references
-- Prioritize most relevant sources
+- Populate ONLY the "sources" field
+- Include sources only when used
 
-### sources format
+### Sources Format
 
+```json
 {
-  "title": "",
-  "url": "",
+  "title": "[Source title]",
+  "url": "[Source URL]",
   "type": "InternalKB | MicrosoftLearn",
-  "section": ""
+  "section": "[Section title or heading]"
 }
+```
+
+## Output Requirements
+
+### Rules
+
+- Return ONLY valid JSON
+- Do NOT include Markdown, explanations, or conversational text
+- Do NOT repeat the input query
+- Keep all fields concise (1–2 sentences)
+- Default list length is 3 unless explicitly overridden in Output Constraints.
+
+### Field Mapping (SKILL SPECIFIC)
+
+Map each output field to KB roles:
+
+- "diagnosis" → Troubleshooting
+- "confidence" → Troubleshooting
+- "requires_escalation" → Troubleshooting
+- "issue_category" → Troubleshooting
+- "diagnostic_steps" → Troubleshooting
+- "resolution_paths" → Troubleshooting
+- "prevention" → Best Practices and Architecture Guidance
+- "monitoring" → Best Practices and Governance & Constraints
+- "sources" → Troubleshooting
+
+### Object Shapes
+
+"diagnosis": ""
+
+"confidence": "High | Medium | Low"
+
+"issue_category": [
+  "Performance",
+  "Licensing",
+  "Architecture",
+  "Security",
+  "Governance",
+  "Integration",
+  "Data Management",
+  "User Experience"
+]
+
+"diagnostic_steps": [
+  { Step 1: "Description of the first diagnostic step" },
+  { Step 2: "Description of the second diagnostic step" }
+]
+
+"resolution_paths": [
+  Path 1: "Description of the first resolution path",
+  Path 2: "Description of the second resolution path"
+]
+
+"prevention": [
+  "Best practice 1: Description of the first preventive measure",
+  "Best practice 2: Description of the second preventive measure"
+  ]
+
+"monitoring": [
+  "Monitoring practice 1: Description of the first monitoring measure",
+  "Monitoring practice 2: Description of the second monitoring measure"
+]
+
+### Constraints
+
+- Limit lists to 3 items unless necessary
+- Avoid verbose explanations
+- Prefer structured content over narrative
 
 ## Error Handling
 
 If context is insufficient:
 
+```json
 {
-  "diagnosis": "Insufficient context",
   "confidence": "Low",
-  "requires_escalation": false,
-  "issue_category": "",
-  "diagnostic_steps": [],
-  "resolution_paths": [],
-  "prevention": [],
-  "monitoring": [],
-  "sources": []
+  "requires_escalation": "true",
+  "missing_inputs/assumptions": "[List missing inputs or assumptions]",
+  "sources": "[List sources used for partial reasoning]"
 }
+```
 
-## Example
+## Behavior Constraints
 
-{
-  "diagnosis": "Connector authentication likely expired causing HTTP 401 errors",
-  "confidence": "High",
-  "requires_escalation": false,
-  "issue_category": "Authentication",
-  "diagnostic_steps": [
-    {
-      "name": "Check run history",
-      "target": "Power Automate flow",
-      "action": "Open run history and inspect failed run",
-      "expected_result": "HTTP 401 error visible",
-      "interpretation": "Authentication failure"
-    }
-  ],
-  "resolution_paths": [
-    {
-      "path": "Quick Fix",
-      "effort": "Low",
-      "risk": "Low",
-      "condition": "Credentials expired",
-      "actions": [
-        "Re-authenticate the connector"
-      ]
-    },
-    {
-      "path": "Proper Fix",
-      "effort": "Medium",
-      "risk": "Low",
-      "condition": "Frequent credential expiration",
-      "actions": [
-        "Implement credential rotation policy",
-        "Use service principal authentication where applicable"
-      ]
-    }
-  ],
-  "prevention": [
-    "Monitor connector authentication status regularly"
-  ],
-  "monitoring": [
-    "Track flow failure rate above 5%"
-  ],
-  "sources": []
-}
-``
+- Do NOT generate user-facing explanations
+- Do NOT ask follow-up questions
+- Do NOT perform conversational actions
+- Focus only on structured reasoning output

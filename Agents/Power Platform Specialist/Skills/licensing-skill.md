@@ -1,6 +1,6 @@
 ---
 name: "licensing-skill"
-description: "Identify required Power Platform components and validate licensing requirements, limits, feature availability, and capacity add-ons based on user scenarios."
+description: "Identify and validate licensing requirements, limits, feature availability, and capacity add-ons based on user scenarios."
 ---
 
 # licensing-skill
@@ -11,40 +11,33 @@ Identify which Power Platform components meet the user objective and determine t
 
 ## Input Contract
 
+```json
 {
   "query": "[User request]",
-  "query_type": "[Solution | Architecture | Licensing]",
-  "add_context": "[Optional additional details such as expected scale, connectors, automation, or data sources]"
+  "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing | Governance]",
+  "add_context": "[Optional additional details]"
 }
+```
 
-## Output Contract (MANDATORY)
+## Output Contract (SKILL SPECIFIC)
   
-Return ONLY valid JSON:{
-  "recommended_components": [],
-  "licensing_requirements": [],
-  "license_capabilities": [],
-  "license_options": [],
-  "capacity_addons": [],
+Return ONLY valid JSON:
+
+```json
+{
+  "component_or_capacity_name": "",
+  "license_or_capacity_required": [],
   "confidence": "High | Medium | Low",
-  "requires_escalation": false,
+  "requires_escalation": ["true | false"],
   "sources": []
 }
+```
 
 ## KB Orchestration Pattern
   
 Use internal knowledge bases through role-based reasoning.
 
-### 1. KB Roles
-
-- **Diagnosis** → Identify root cause of issues
-- **Resolution** → Provide actionable fixes
-- **Component Selection** → Identify suitable Power Platform features
-- **Architecture Guidance** → Structure solution design and blueprints
-- **Best Practices** → Improve performance, scalability, and maintainability
-- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
-- **Licensing** → Validate licensing requirements and limits
-
-### 2. Role Mapping (SKILL-SPECIFIC)
+### Role Mapping (SKILL SPECIFIC)
   
 Primary role:
 
@@ -55,131 +48,135 @@ Supporting roles:
 - Component Selection
 - Architecture Guidance
 
-### 3. Role Selection Rules
+### Role Selection Rules (SKILL SPECIFIC)
 
-- Always use Licensing as the primary reasoning driver
-- Use Component Selection when user intent involves solution design
-- Use Architecture Guidance when scale, automation volume, or data usage impacts licensing
-- Trigger capacity_addons evaluation when:
-  - High volume transactions or API calls are implied
-  - AI Builder, Dataverse storage, or unattended RPA is referenced
-  - PAYG or consumption-based scenarios are applicable
+- Use **Licensing** to drive decisions (mandatory).
+- Use **Component Selection** for choosing Power Platform components or connectors
+- Use **Architecture Guidance** when scale, automation volume, storage, API usage, or solution dependencies affect licensing
+- Do not exceed 3 roles per request
 
-### 4. Source Prioritization
+### Source Prioritization
 
 - Use internal KB as primary source
 - Use Microsoft documentation to:
-  - Validate licensing rules, limits, and add-ons
-  - Confirm feature availability (Dataverse, premium connectors, AI Builder, RPA)
+  - validate KB guidance
+  - enrich with up-to-date technical details
+
 If conflict exists:
-- Prioritize Microsoft documentation for licensing accuracy
-- Preserve internal governance constraints if applicable
 
-### 5. KB Selection Rules
+- Prioritize Microsoft documentation for technical accuracy
+- Preserve internal KB guidance aligned with company policies
 
-- Select KBs focused on licensing models, entitlements, capacity, and add-ons
-- Match query to structured sections (e.g., License Comparison, Limits, Capacity, Add-ons)
-- Prioritize:
-  - Specific license types (Per App, Per User, PAYG, Power Automate plans)
-  - Feature availability (Dataverse, Premium connectors)
-  - Capacity metrics (API calls, AI credits, storage, attended/unattended RPA)
-- Avoid generic product overviews
+### KB Selection Rules
 
-### 6. KB Usage Constraints
+- Assume KB search already ranks documents
+- Do NOT re-rank documents manually
+- Select KBs based on role relevance
+
+Within selected KBs:
+
+- Match query to section titles or structured headings
+- Prioritize specific scenarios or decisions over generic sections
+- Extract information using document structure (e.g., Cause, Solution, Guidelines)
+- Preserve logical sequence where defined
+
+### KB Usage Constraints
 
 - Use a maximum of 2–3 KB sources
-- Ensure alignment with selected licensing and add-on scenarios
-- Do not infer unsupported licensing or add-on combinations
-- Avoid mixing unrelated product domains
+- Ensure all outputs align with selected KB sections
+- Do not introduce unsupported recommendations unless validated
+- Avoid merging unrelated KB sections
+- Use only sources actually used.
+- Ensure Microsoft Learn is only used for time-sensitive or technically authoritative validation.
 
 ## Core Requirements
 
-- Use Licensing role to:
-  - Determine required licenses based on scenario
-  - Validate limits (transactions, runs, API calls)
-  - Identify feature availability per license
-  - Identify when capacity add-ons are required
-- Use Component Selection to:
-  - Map user goals to Power Platform components
-- Use Architecture Guidance to:
-  - Identify multi-license dependencies
-  - Determine when base licensing is insufficient without add-ons
-- Always:
-  - Distinguish included vs additional capacity
-  - Highlight dependencies between licenses and add-ons
-  - Provide alternative license paths when applicable
-
-### Extended Scope
-
-- Include guidance on how to check or validate assigned licenses
-- Include observable indicators (premium connectors, Dataverse access)
-
-## Output Field Mapping
-
-- "recommended_components" → Component Selection role  
-- "licensing_requirements" → Licensing role  
-- "license_capabilities" → Licensing role  
-- "license_options" → Architecture Guidance role  
-- "capacity_addons" → Licensing + Architecture Guidance roles  
-
-Field definitions:
-
-- recommended_components → Power Platform components required (e.g., Power Apps, Power Automate, Dataverse)
-- licensing_requirements → Required licenses or combinations to support the scenario
-- license_capabilities → Key limits and features (e.g., premium connectors, Dataverse access, API limits)
-- license_options → Alternative license models providing similar capabilities
-- capacity_addons → Required or recommended add-ons (e.g., AI Builder credits, Dataverse storage, unattended RPA, additional API capacity)
+- Use PRIMARY role to drive main reasoning
+- Use SUPPORTING roles to enrich outputs
+- Keep reasoning grounded in KB content
+- Validate technical accuracy using authoritative documentation when needed
+- Extract and reference the most relevant KB sections
+- Ensure all outputs are structured and concise.
 
 ## Confidence Guidelines
 
-- **High** → Clear mapping of licenses and add-ons validated with documentation
-- **Medium** → Multiple valid combinations or partial uncertainty on capacity needs
-- **Low** → Missing scale/context or unclear requirements
+- **High** → Strong match with primary KB role + validated by Microsoft documentation
+- **Medium** → Partial KB match or requires supporting roles
+- **Low** → Weak KB match, ambiguity, or insufficient context
+- If any required input is missing or context is insufficient, set `requires_escalation: true`.
 
-## Output Rules (MANDATORY)
-
-- Return ONLY valid JSON
-- Do NOT include Markdown, explanations, or conversational text
-- Do NOT repeat the input query
-- Keep all fields concise (1–2 sentences)
-
-## Output Constraints
-
-- Limit lists to 3 items unless necessary
-- Avoid verbose explanations
-- Prefer structured entries (short phrases or lightweight objects)
-
-## Reference Rules (MANDATORY)
+## Reference Rules
 
 - Populate ONLY the "sources" field
 - Include sources only when used
 
 ### Sources Format
 
+```json
 {
-  "title": "",
-  "url": "",
+  "title": "[Source title]",
+  "url": "[Source URL]",
   "type": "InternalKB | MicrosoftLearn",
-  "section": ""
+  "section": "[Section title or heading]"
 }
+```
+
+## Output Requirements
+
+### Rules
+
+- Return ONLY valid JSON
+- Do NOT include Markdown, explanations, or conversational text
+- Do NOT repeat the input query
+- Keep all fields concise (1–2 sentences)
+- Default list length is 3 unless explicitly overridden in Output Constraints.
+
+### Field Mapping (SKILL SPECIFIC)
+
+Map each output field to KB roles:
+
+- "component_or_capacity_name" -> Component Selection
+- "license_or_capacity_required" -> Licensing
+- "license_or_capacity_name" -> Licensing
+- "justification" -> Licensing
+- "confidence" -> Licensing
+- "requires_escalation" -> Licensing
+- "sources" -> Licensing
+
+### Object Shapes (SKILL SPECIFIC)
+
+component_or_capacity_name": ""
+
+license_or_capacity_required": [
+    {
+      "license_or_capacity_name": "",
+      "justification": ""
+    }
+]
+
+### Constraints
+
+- Limit primary recommendation to 1 core solution.
+- Provide a maximum of 3 alternative approaches.
+- Responses must be directly applicable to the Power Platform (not general software engineering).
+- Do not recommend features that are not accessible via the Power Platform.
 
 ## Error Handling
-  
-If context is insufficient:{
-  "recommended_components": [],
-  "licensing_requirements": [],
-  "license_capabilities": [],
-  "license_options": [],
-  "capacity_addons": [],
+
+If context is insufficient:
+
+```json
+{
   "confidence": "Low",
-  "requires_escalation": false,
-  "sources": []
+  "requires_escalation": true,
+  "missing_inputs/assumptions": "[List missing inputs or assumptions]",
+  "sources": "[List sources used for partial reasoning]"
 }
+```
 
 ## Behavior Constraints
 
-- Do NOT generate user-facing explanations
-- Do NOT ask follow-up questions
-- Do NOT troubleshoot issues
-- Do NOT estimate costs
-- Focus strictly on licensing validation, component mapping, and add-ons identification
+- Do not offer opinions; only provide facts based on internal/Microsoft knowledge.
+- Avoid technical jargon unless necessary for clarity.
+- Ensure tone is helpful, professional, and neutral.
+- Do not provide "how-to" steps unless requested; focus on "what" and "why" for implementation patterns.

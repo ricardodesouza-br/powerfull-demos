@@ -11,264 +11,218 @@ Diagnose performance bottlenecks in Power Platform solutions and recommend valid
 
 ## Input Contract
 
+```json
 {
   "query": "[User issue description]",
   "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing]",
   "add_context": "[Optional additional details]"
 }
+```
 
-## Output Contract (MANDATORY)
-
+## Output Contract (SKILL SPECIFIC)
+  
 Return ONLY valid JSON:
 
-{
-  "probable_causes": [
-    {
-      "cause": "",
-      "category": "",
-      "likelihood": "High | Medium | Low",
-      "impact": "High | Medium | Low",
-      "priority_score": "",
-      "ranking_position": "",
-      "confidence": "High | Medium | Low",
-      "evidence": "",
-      "kb_reference": "",
-      "correlations": [
-        {
-          "related_cause": "",
-          "relationship": "Amplifies | DependsOn | Co-occursWith",
-          "effect": "",
-          "severity_multiplier": "Low | Medium | High"
-        }
-      ]
-    }
-  ],
-  "validation_tasks": [
-    {
-      "related_cause": "",
-      "task": "",
-      "target": "",
-      "expected_result": "",
-      "interpretation": ""
-    }
-  ],
-  "recommended_actions": [
-    {
-      "related_cause": "",
-      "type": "Quick Fix | Optimization | Architectural | Escalation",
-      "effort": "Low | Medium | High",
-      "risk": "Low | Medium | High",
-      "actions": []
-    }
-  ],
-  "monitoring_actions": [
-    {
-      "metric": "",
-      "target": "",
-      "method": "",
-      "success_criteria": ""
-    }
-  ],
-  "best_practices": [],
-  "overall_confidence": "High | Medium | Low",
-  "requires_escalation": false,
-  "sources": []
-}
-
-## KB Orchestration Pattern
-
-Use internal knowledge bases through role-based reasoning.
-
-### KB Roles
-
-- **Diagnosis** → Identify root cause of issues
-- **Resolution** → Provide actionable fixes
-- **Component Selection** → Identify suitable Power Platform features
-- **Architecture Guidance** → Structure solution design and blueprints
-- **Best Practices** → Improve performance, scalability, and maintainability
-- **Governance & Constraints** → Apply policies (DLP, security, environments, ALM)
-- **Licensing** → Validate licensing requirements and limits
-
-### Role Mapping
-
-Primary role: Diagnosis  
-Supporting roles: Resolution, Best Practices, Governance
-
-### Role Usage
-
-- Always use ONE primary role
-- Use up to TWO supporting roles
-- Prefer the most specific role
-
-### KB Selection & Usage
-
-- Select relevant KB sections (max 2 sources)
-- Prioritize specific sections over generic ones
-
-- Extract:
-  - Causes from "Cause"
-  - Solutions from "Solution"
-
-- Ensure:
-  - alignment with KB
-  - no unsupported recommendations
-  - no merging unrelated sections
-
-### Source Prioritization
-
-- Internal KB first
-- Microsoft docs for validation
-
-## Cause Catalog Usage
-
-- Match causes against catalog first
-- A match requires:
-  - direct symptom alignment OR
-  - combined secondary symptoms
-
-- Avoid duplicate or overlapping causes
-- Always include precise kb_reference
-
-## Core Requirements
-
-### Multi-cause Analysis
-
-- Identify 1–5 causes
-- Avoid unsupported causes
-
-### Ranking Logic
-
-- priority_score = likelihood × impact × evidence_weight
-
-- Evidence:
-  - Strong = 1.2
-  - Medium = 1.0
-  - Weak = 0.8
-
-- Tie-breaker:
-  - higher impact
-  - then stronger evidence
-
-### Confidence Model
-
-- High → validated, dominant cause
-- Medium → inferred, not validated
-- Low → weak or insufficient data
-
-- Do NOT assign High without validation
-
-### Validation Tasks
-
-- Must:
-  - isolate cause
-  - be measurable
-  - produce binary result
-
-- Adjust depth based on ambiguity
-
-### Recommended Actions
-
-#### Traceability (MANDATORY)
-
-- Each action group MUST map to one related_cause
-- Do NOT mix unrelated causes
-
-#### Action Principles
-
-- Must be:
-  - specific
-  - executable
-  - cause-driven
-
-- Avoid:
-  - vague advice
-  - assumptions not in context
-  - non-scalable patterns
-
-#### Technical Precision
-
-- Avoid absolute claims unless universally true
-- Distinguish:
-  - delegation limits
-  - performance optimization
-
-#### KB-driven Primitives
-
-- Use 1–3 primitives:
-  - Reduce data volume
-  - Push processing to source
-  - Defer processing
-  - Replace non-scalable patterns
-  - Limit payload
-  - Simplify logic
-  - Control execution
-  - Optimize UI
-  - Restructure architecture
-  - Validate metrics
-
-#### Adaptive Mode
-
-If cause uncertain:
-
-- isolate
-- reduce scope
-- move processing to source
-- validate improvements
-
-#### Prohibited Patterns
-
-- No FirstN / LastN for large datasets
-- No full ClearCollect on large lists
-- No client-side filtering as main fix
-
-### Monitoring
-
-- Must include:
-  - metric
-  - baseline
-  - success criteria
-
-- Prefer:
-  - relative improvement
-  - reduced payload
-  - server-side filtering presence
-
-### Best Practices
-
-- Derived from causes
-- Prevent recurrence
-- No generic advice
-
-## Output Rules
-
-- Return ONLY JSON
-- No explanations
-- Max 1–2 sentences per field
-
-## Output Constraints
-
-- Max 5 causes
-- Max 2 validation tasks per cause
-- Max 2 action groups per cause
-- Max 5 monitoring actions
-- Max 7 best practices
-
-- Do NOT include weak causes
-
-- All items must map to related causes
-- No inline citations
-
-## Error Handling
-
-If insufficient context:
-
+```json
 {
   "probable_causes": [],
   "validation_tasks": [],
   "recommended_actions": [],
   "monitoring_actions": [],
   "best_practices": [],
-  "overall_confidence": "Low",
-  "requires_escalation": false,
+  "overall_confidence": "High | Medium | Low",
+  "requires_escalation": ["true | false"],
   "sources": []
 }
+```
+
+## KB Orchestration Pattern
+
+Use internal knowledge bases through role-based reasoning.
+
+### Role Mapping (SKILL-SPECIFIC)
+  
+Primary role:
+
+- Troubleshooting  
+
+Supporting roles:
+
+- Best Practices
+- Governance & Constraints
+
+### Role Selection Rules
+
+- Use **Troubleshooting** to drive decisions and identifying fixes
+- Use **Best Practices** for performance and maintainability
+- Use **Governance & Constraints** for security and policy compliance
+- Do not exceed 3 roles per request
+
+### Source Prioritization
+
+- Use internal KB as primary source
+- Use Microsoft documentation to:
+  - validate KB guidance
+  - enrich with up-to-date technical details
+
+If conflict exists:
+
+- Prioritize Microsoft documentation for technical accuracy
+- Preserve internal KB guidance aligned with company policies
+
+### KB Selection Rules
+
+- Assume KB search already ranks documents
+- Do NOT re-rank documents manually
+- Select KBs based on role relevance
+
+Within selected KBs:
+
+- Match query to section titles or structured headings
+- Prioritize specific scenarios or decisions over generic sections
+- Extract information using document structure (e.g., Cause, Solution, Guidelines)
+- Preserve logical sequence where defined
+
+### KB Usage Constraints
+
+- Use a maximum of 2–3 KB sources
+- Ensure all outputs align with selected KB sections
+- Do not introduce unsupported recommendations unless validated
+- Avoid merging unrelated KB sections
+- Use only sources actually used.
+- Ensure Microsoft Learn is only used for time-sensitive or technically authoritative validation.
+
+## Core Requirements
+
+- Use PRIMARY role to drive main reasoning
+- Use SUPPORTING roles to enrich outputs
+- Keep reasoning grounded in KB content
+- Validate technical accuracy using authoritative documentation when needed
+- Extract and reference the most relevant KB sections
+
+## Confidence Guidelines
+
+- **High** → Strong match with primary KB role + validated by Microsoft documentation
+- **Medium** → Partial KB match or requires supporting roles
+- **Low** → Weak KB match, ambiguity, or insufficient context
+- If any required input is missing or context is insufficient, set `requires_escalation: true`
+
+## Reference Rules
+
+- Populate ONLY the "sources" field
+- Include sources only when used
+
+### Sources Format
+
+```json
+{
+  "title": "[Source title]",
+  "url": "[Source URL]",
+  "type": "InternalKB | MicrosoftLearn",
+  "section": "[Section title or heading]"
+}
+```
+
+## Output Requirements
+
+### Rules
+
+- Return ONLY valid JSON
+- Do NOT include Markdown, explanations, or conversational text
+- Do NOT repeat the input query
+- Keep all fields concise (1–2 sentences)
+- Default list length is 3 unless explicitly overridden in Output Constraints.
+
+### Field Mapping
+
+Map each output field to KB roles:
+
+- "probable_causes" → Troubleshooting
+- "validation_tasks" → Troubleshooting
+- "recommended_actions" → Troubleshooting
+- "monitoring_actions" → Governance & Constraints
+- "best_practices" → Best Practices
+- "overall_confidence" → Troubleshooting
+- "requires_escalation" → Troubleshooting
+- "sources" → Troubleshooting
+
+### Object Shapes
+
+"probable_causes": [
+  {
+    "cause": "",
+    "category": "",
+    "likelihood": "High | Medium | Low",
+    "impact": "High | Medium | Low",
+    "priority_score": "",
+    "ranking_position": "",
+    "confidence": "High | Medium | Low",
+    "evidence": "",
+    "kb_reference": "",
+    "correlations": [
+      {
+       "related_cause": "",
+        "relationship": "Amplifies | DependsOn | Co-occursWith",
+        "effect": "",
+        "severity_multiplier": "Low | Medium | High"
+      }
+    ]
+  }
+]
+
+"validation_tasks": [
+  {
+    "related_cause": "",
+    "task": "",
+    "target": "",
+    "expected_result": "",
+    "interpretation": ""
+  }
+]
+
+"recommended_actions": [
+  {
+    "related_cause": "",
+    "type": "Quick Fix | Optimization | Architectural | Escalation",
+    "effort": "Low | Medium | High",
+    "risk": "Low | Medium | High",
+    "actions": []
+  }
+]
+
+"monitoring_actions": [
+  {
+    "metric": "",
+    "target": "",
+    "method": "",
+    "success_criteria": ""
+  }
+]
+
+"best_practices": []
+
+### Constraints
+
+- Limit lists to 3 items unless necessary
+- Avoid verbose explanations
+- Prefer structured content over narrative
+
+## Error Handling
+
+If context is insufficient:
+
+```json
+{
+  "confidence": "Low",
+  "requires_escalation": true,
+  "missing_inputs/assumptions": "[List missing inputs or assumptions]",
+  "sources": "[List sources used for partial reasoning]"
+}
+```
+
+## Behavior Constraints
+
+- Do NOT generate user-facing explanations
+- Do NOT ask follow-up questions
+- Do NOT perform conversational actions
+- Focus only on structured reasoning output

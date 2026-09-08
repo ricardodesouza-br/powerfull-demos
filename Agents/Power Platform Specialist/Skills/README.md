@@ -113,13 +113,12 @@ All skills use a shared set of **KB roles**:
 
 | Role | Purpose |
 | ----- | -------- |
-| Diagnosis | Identify root cause |
-| Resolution | Provide fixes |
 | Component Selection | Choose platform features |
 | Architecture Guidance | Structure solution design |
 | Best Practices | Improve quality and performance |
 | Governance & Constraints | Apply policies (DLP, environments, security) |
 | Licensing | Validate license requirements |
+| Troubleshooting | Diagnose and resolve issues |
 
 ### Role Mapping (Per Skill)
 
@@ -165,112 +164,7 @@ Avoid:
 
 ## Standard Skill Structure
 
-### Metadata
-
-```markdown
-### name: "<skill-name>"
-description: "<short description>"
-```
-
-### Purpose
-
-Clear description of what the skill does
-1–2 sentences only
-
-### Input Contract
-
-```json
-{
-  "query": "",
-  "query_type": "",
-  "add_context": ""
-}
-```
-
-### Output Contract (MANDATORY)
-
-```json
-{
-  "confidence": "High | Medium | Low",
-  "requires_escalation": false,
-  "sources": []
-}
-```
-
-### KB Orchestration Pattern
-
-Include:
-
-- KB roles
-- Role mapping
-- Selection rules
-- Usage constraints
-
-### Core Requirements
-
-Define:
-
-- What the skill must produce
-- How roles influence output
-- Validation expectations
-
-### Output Field Mapping
-
-Map fields to roles. Example:
-
-- diagnosis → Diagnosis role
-- resolution_paths → Resolution role
-- prevention → Best Practices role
-- monitoring → Governance role
-
-### Confidence Guidelines
-
-High → Strong KB match + validated
-Medium → Partial KB match
-Low → Weak KB match or ambiguity
-
-### Output Rules
-
-- Return ONLY JSON
-- No explanations
-- No Markdown
-- No conversational text
-
-### Output Constraints
-
-- Max 3 items per list
-- Keep responses concise
-- Use structured objects (not paragraphs)
-
-### Reference Rules
-
-Structured in sources only:
-
-```json
-{
-  "title": "",
-  "url": "",
-  "type": "InternalKB | MicrosoftLearn",
-  "section": ""
-}
-```
-
-Do NOT use:
-
-- Inline references
-- Citation markers ([1], [2])
-
-### Error Handling
-
-If context is insufficient:
-
-```json
-{
-  "confidence": "Low",
-  "requires_escalation": false,
-  "sources": []
-}
-```
+Access the [**Skills Template**](/Agents/Power%20Platform%20Specialist/Skills/Templates/template-skill.md) for a complete skill structure.
 
 ## Best Practices
 
@@ -377,8 +271,7 @@ The Skill Registry is used for:
 
 The following templates are stored on this folder:
 
-- **Skill Generator Prompt**: Can accelerate the creation of new skills using standardized instructions.
-- **Skills Master Template**: Template instructions for new skills.
+- [**Skill Template**](/Agents/Power%20Platform%20Specialist/Skills/Templates/template-skill.md) : Template instructions for new skills.
 
 ## Final Notes
 

@@ -1,61 +1,72 @@
 ---
-name: "solutioning-skill"
-description: "Recommend the best Power Platform approaches and implementation patterns for user scenarios, including alternatives, best practices, and governance considerations."
+name: "<skill-name>"
+description: "<Short description aligned with purpose>"
 ---
 
-# solutioning-skill
+<!--
+AUTHORING INSTRUCTIONS:
+1. Replace all [brackets] with specific information.
+2. Keep the metadata in the YAML front matter accurate.
+3. Maintain the heading hierarchy (H1, H2, H3, H4).
+4. Do not remove existing sections unless they are not applicable to this skill.
+5. Do not remove existent rules or guidelines unless they are not applicable to this skill.
+6. Identify as "Skill Specific" new sections or rules.
+7. Remove helpful authoring instructions before publishing.
+8. Update the Change Log.
+9. Review Markdown diagnostics in VS Code.
+-->
+
+# skill name
 
 ## Purpose
-  
-Identify the most suitable Power Platform solution approaches for a given scenario and provide up to three structured alternatives, including implementation patterns, best practices, and governance considerations.
+
+[Describe what this skill does in 1–2 sentences]
 
 ## Input Contract
 
 ```json
 {
   "query": "[User request]",
-  "query_type": "[Solution | Troubleshooting | Architecture | Performance | Licensing]",
+  "query_type": "[Diagnosis | Resolution | Component Selection | Architecture Guidance | Best Practices | Governance & Constraints | Licensing]",
   "add_context": "[Optional additional details]"
 }
 ```
 
 ## Output Contract (SKILL SPECIFIC)
-  
+
 Return ONLY valid JSON:
+
+[Sample output contract for this skill, including all required fields and their types. Use JSON schema or a similar format to define the structure.]
 
 ```json
 {
-  "primary_recommendation": {},
-  "alternative_approaches": [],
-  "governance_considerations": [],
+  "<field_1>": "",
+  "<field_2>": "",
   "confidence": "High | Medium | Low",
-  "requires_escalation": ["true | false"],
+  "requires_escalation": false,
   "sources": []
 }
 ```
 
 ## KB Orchestration Pattern
-  
+
 Use internal knowledge bases through role-based reasoning.
 
-### KB Role Mapping (SKILL-SPECIFIC)
-  
+### KB Role Mapping (SKILL SPECIFIC)
+
 Primary role:
 
-- Component Selection  
+[DEFINE PRIMARY ROLE]
 
 Supporting roles:
 
-- Best Practices
-- Governance & Constraints
-- Architecture Guidance
+[DEFINE 1–3 SUPPORTING ROLES]
 
 ### Role Selection Rules (SKILL SPECIFIC)
 
-- Use **Component Selection** to drive decisions (mandatory)
-- Use **Best Practices** for implementation and maintainability
-- Use **Governance & Constraints** for policy and compliance
-- Use **Architecture Guidance** when cross-solution or high-scale architecture is required
+- Use [Primary Role] to drive decisions (mandatory).
+- Use [Supporting Role 1] for [specific purpose].
+- Use [Supporting Role 2] for [specific purpose].
 - Do not exceed 3 roles per request
 
 ### Source Prioritization
@@ -99,6 +110,7 @@ Within selected KBs:
 - Keep reasoning grounded in KB content
 - Validate technical accuracy using authoritative documentation when needed
 - Extract and reference the most relevant KB sections
+- Ensure all outputs are structured and concise.
 
 ## Confidence Guidelines
 
@@ -133,40 +145,33 @@ Within selected KBs:
 - Keep all fields concise (1–2 sentences)
 - Default list length is 3 unless explicitly overridden in Output Constraints.
 
-### Field Mapping (SKILL-SPECIFIC)
+### Field Mapping (SKILL SPECIFIC)
 
 Map each output field to KB roles:
+  
+[EXAMPLE STRUCTURE — CUSTOMIZE PER SKILL]
 
-- "primary_recommendation" → Component Selection + Best Practices roles  
-- "alternative_approaches" → Component Selection + Architecture Guidance roles  
-- "governance_considerations" → Governance & Constraints role  
+- "<field_1>" → Primary role
+- "<field_2>" → Secondary role
+- "<field_3>" → Secondary role
 
-### Object Shapes (SKILL-SPECIFIC)
+<!-- INSTRUCTIONS FOR SKILL AUTHORS:
+- Ensure all output fields are typed (e.g., String, Array, Object)
+- Provide a default/empty fallback value for every field
+- Define the max cardinality for any list fields
+- Ensure consistency between:
+  - diagnosis ↔ Diagnosis role
+  - resolution ↔ Resolution role
+  - prevention ↔ Best Practices role
+  - monitoring ↔ Governance role
+  - design ↔ Architecture role
+-->
 
-primary_recommendation → Best-fit approach for the scenario  
-{
-  "name": "",
-  "components": [],
-  "implementation": "",
-  "considerations": []
-}
+### Object Shapes (SKILL SPECIFIC)
 
-alternative_approaches → Up to 2 alternative solution approaches  
-[
-  {
-    "name": "",
-    "components": [],
-    "implementation": "",
-    "considerations": []
-  }
-]
+[EXAMPLE STRUCTURE — CUSTOMIZE PER SKILL]
 
-governance_considerations:[
-  {
-    "type": "Governance | Security | Monitoring | Licensing | ALM",
-    "detail": ""
-  }
-]
+!!! DEFINE OUTPUT OBJECT SHAPES PER FIELD !!!
 
 ### Constraints
 
@@ -181,7 +186,7 @@ If context is insufficient:
 ```json
 {
   "confidence": "Low",
-  "requires_escalation": "true",
+  "requires_escalation": true,
   "missing_inputs/assumptions": "[List missing inputs or assumptions]",
   "sources": "[List sources used for partial reasoning]"
 }
