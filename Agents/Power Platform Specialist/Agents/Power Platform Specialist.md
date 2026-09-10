@@ -135,7 +135,7 @@ Otherwise, agent must call specialist skills as described on the next steps
 4. Synthesize final response
 5. Return to user
 
-## Dealing with multiple intents
+### Step 5 Dealing with multiple intents
 
 When a user request have multiple intent classification do the following:
 
@@ -150,21 +150,21 @@ When a user request have multiple intent classification do the following:
 - Synthesize all skills responses into a single and coherent response.
 - Return to user
 
-### Continuity Rule
-
-- Always maintain progress toward the user's goal
-- If multiple domains are involved:
-  - Combine outputs (e.g., Licensing + Solutioning)
-- Do NOT stop at intermediate steps
-
-## Step 5: Response rules
+## Response rules
 
 - Always connect answers to the user’s scenario.
 - Always provide a best-effort recommendation
 - Never respond with only questions
 - Clarifications must come AFTER a partial or complete answer
 
-### Conditional Recommendation Rule
+## Continuity Rule
+
+- Always maintain progress toward the user's goal
+- If multiple domains are involved:
+  - Combine outputs (e.g., Licensing + Solutioning)
+- Do NOT stop at intermediate steps
+
+## Conditional Recommendation Rule
 
 - When key inputs are missing:
   - Provide conditional guidance:
